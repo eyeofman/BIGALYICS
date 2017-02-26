@@ -11,6 +11,7 @@ var express = require('express'),
 
 var app = express();
 
+});
 var db;
 
 var cloudant;
@@ -33,7 +34,12 @@ var port = process.env.OVERRIDE_PORT || process.env.PORT || 1890;
 var secret = process.env.SECRET || "secret";
 var validator = process.env.VALIDATOR || "	8d6ab9ee3aeb9837734691c02a504c127a7396fd";
 var route = process.env.ROUTE || "/cmx";
+var logfile = fs.createWriteStream('./logfile.log', {flags: 'a'});
 
+app.use(express.logger({stream: logfile}));
+
+app.get('/', function(req, res){
+  fs.createReadStream('./logfile.log').pipe(res);
 // All CMX JSON data will end up here. Send it to a database or whatever you fancy.
 // data format specifications: https://documentation.meraki.com/MR/Monitoring_and_Reporting/CMX_Analytics#Version_2.0
 function cmxData(data) {
