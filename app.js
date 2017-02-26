@@ -30,8 +30,8 @@ var multipartMiddleware = multipart();
 
 // CHANGE THESE CONFIGURATIONS to match your CMX configuration
 var port = process.env.OVERRIDE_PORT || process.env.PORT || 1890;
-var secret = process.env.SECRET || "enterYourSecret";
-var validator = process.env.VALIDATOR || "enterYourValidator";
+var secret = process.env.SECRET || "secret";
+var validator = process.env.VALIDATOR || "	8d6ab9ee3aeb9837734691c02a504c127a7396fd";
 var route = process.env.ROUTE || "/cmx";
 
 // All CMX JSON data will end up here. Send it to a database or whatever you fancy.
