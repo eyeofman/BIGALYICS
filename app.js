@@ -1,9 +1,32 @@
-//NodeJS CMX Receiver
-//A basic web service to accept CMX data from a Cisco Meraki network
-//Accept a GET request from Meraki and respond with a validator
-//Meraki will POST to server, if validated.
-//POST will contain a secret, which can be verified by the server//SON data will be in the req.body.data. This will be available in the cmxData function's data object.
+/**
+ * Module dependencies.
+ */
 
+var express = require('express'),
+    routes = require('./routes'),
+    user = require('./routes/user'),
+    http = require('http'),
+    path = require('path'),
+    fs = require('fs');
+
+var app = express();
+
+var db;
+
+var cloudant;
+
+var fileToUpload;
+
+var dbCredentials = {
+    dbName: 'my_sample_db'
+};
+
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var logger = require('morgan');
+var errorHandler = require('errorhandler');
+var multipart = require('connect-multiparty')
+var multipartMiddleware = multipart();
 
 // CHANGE THESE CONFIGURATIONS to match your CMX configuration
 var port = process.env.OVERRIDE_PORT || process.env.PORT || 1890;
@@ -21,9 +44,6 @@ function cmxData(data) {
 //**********************************************************
 
 // Express Server 
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 // CMX Location Protocol, see https://documentation.meraki.com/MR/Monitoring_and_Reporting/CMX_Analytics#API_Configuration
